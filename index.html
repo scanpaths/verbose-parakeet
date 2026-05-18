@@ -244,6 +244,15 @@ header {
   height: 2px; background: var(--text-primary); width: 0%;
   transition: width 0.45s; position: fixed; top: 0; left: 0; z-index: 100;
 }
+@media (min-width: 700px) {
+  #main { max-width: 1000px; margin: 0 auto; width: 100%; }
+  header { padding: 48px 32px 16px; }
+  .picks { flex-direction: row; align-items: stretch; padding: 12px 32px 0; gap: 14px; }
+  .card { flex: 1; min-height: 0; }
+  .card-media { height: 200px; }
+  .actions { padding: 16px 32px 48px; max-width: 280px; }
+  #setup { max-width: 480px; }
+}
 </style>
 </head>
 <body>
