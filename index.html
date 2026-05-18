@@ -31,12 +31,9 @@ body {
   min-height: 100vh;
 }
 #setup h1 {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #000;
-  margin-bottom: 32px;
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #000; margin-bottom: 32px;
 }
 #setup p { font-size: 13px; color: #666; line-height: 1.6; margin-bottom: 20px; }
 #setup a { color: #000; }
@@ -45,10 +42,9 @@ body {
   width: 100%; height: 42px;
   border: 1px solid #e8e8e8; border-radius: 3px;
   padding: 0 11px; font-size: 12px; font-family: monospace;
-  color: #000; background: #fff; margin-bottom: 9px; outline: none;
+  color: #000; background: #fff; margin-bottom: 16px; outline: none;
 }
 #token-input:focus { border-color: #000; }
-#setup-error { font-size: 11px; color: #c00; min-height: 16px; margin-bottom: 9px; }
 #btn-save {
   width: 100%; height: 42px; background: #000; color: #fff;
   border: none; border-radius: 3px; font-size: 12px; font-weight: 500;
@@ -61,9 +57,7 @@ body {
 #main { display: none; flex-direction: column; min-height: 100vh; }
 header {
   padding: 44px 20px 10px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+  display: flex; align-items: flex-end; justify-content: space-between;
 }
 h1.main-title {
   font-size: 12px; font-weight: 500;
@@ -96,27 +90,15 @@ h1.main-title {
   font-size: 9px; font-weight: 500; letter-spacing: 0.1em;
   text-transform: uppercase; color: #bbb;
   padding: 8px 10px 4px;
-  display: flex; justify-content: space-between; align-items: center;
 }
-.pick-label span { color: #ddd; font-size: 9px; }
-.pick-inner {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
+.pick-inner { flex: 1; display: flex; flex-direction: column; }
 .pick-image {
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-  display: block;
-  background: #f5f5f5;
+  width: 100%; height: 120px;
+  object-fit: cover; display: block; background: #f5f5f5;
 }
 .pick-text {
   padding: 8px 10px 10px;
-  font-size: 12px;
-  line-height: 1.5;
-  color: #222;
-  flex: 1;
+  font-size: 12px; line-height: 1.5; color: #222; flex: 1;
 }
 .pick-title {
   font-size: 12px; font-weight: 500; color: #000;
@@ -127,10 +109,7 @@ h1.main-title {
   padding: 0 10px 8px;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.pick-meta {
-  font-size: 10px; color: #ccc;
-  padding: 4px 10px 8px;
-}
+.pick-meta { font-size: 10px; color: #ccc; padding: 4px 10px 8px; }
 .pick-empty {
   display: flex; align-items: center; justify-content: center;
   flex: 1; min-height: 60px;
@@ -138,11 +117,7 @@ h1.main-title {
 }
 
 /* action bar */
-.actions {
-  padding: 12px 20px 44px;
-  display: flex;
-  gap: 8px;
-}
+.actions { padding: 12px 20px 44px; display: flex; gap: 8px; }
 .btn-roll {
   flex: 1; height: 42px; background: #000; color: #fff;
   border: none; border-radius: 3px; font-size: 12px; font-weight: 500;
@@ -150,7 +125,6 @@ h1.main-title {
 }
 .btn-roll:active { opacity: 0.75; }
 .btn-roll:disabled { opacity: 0.3; cursor: default; }
-
 .loading-bar {
   height: 2px; background: #000; width: 0%;
   transition: width 0.5s; position: fixed; top: 0; left: 0; z-index: 100;
@@ -163,10 +137,9 @@ h1.main-title {
 <div id="setup">
   <h1>Picks</h1>
   <p>Paste your Are.na personal access token below. It's stored only on this device and never sent anywhere else.</p>
-  <p>Get yours at <a href="https://dev.are.na/oauth/applications" target="_blank">dev.are.na/oauth/applications</a> → New Application → Personal Access Token.</p>
+  <p>Get yours at <a href="https://www.are.na/developers/personal-access-tokens" target="_blank">are.na/developers/personal-access-tokens</a> → New personal access token.</p>
   <label for="token-input">Access token</label>
   <input type="password" id="token-input" placeholder="paste token here" autocomplete="off" autocorrect="off" spellcheck="false">
-  <div id="setup-error"></div>
   <button id="btn-save">Save and continue</button>
 </div>
 
@@ -183,9 +156,9 @@ h1.main-title {
 
 <script>
 const CHANNELS = [
-  { slug: "people-a3xhg4iu7yu",       label: "People" },
-  { slug: "readings-2026-mkpmglbdf_0", label: "Readings" },
-  { slug: "the-world-of-yesterday",    label: "Yesterday" }
+  { slug: "people-a3xhg4iu7yu",          label: "People" },
+  { slug: "readings-2026-mkpmglbdf_0",    label: "Readings" },
+  { slug: "the-world-of-yesterday",       label: "Yesterday" }
 ];
 
 const TOKEN_KEY = 'arena_picks_token';
@@ -196,27 +169,22 @@ const setupEl    = document.getElementById('setup');
 const mainEl     = document.getElementById('main');
 const tokenInput = document.getElementById('token-input');
 const btnSave    = document.getElementById('btn-save');
-const setupError = document.getElementById('setup-error');
 const picksEl    = document.getElementById('picks');
 const btnRoll    = document.getElementById('btn-roll');
 const btnReset   = document.getElementById('btn-reset');
 const bar        = document.getElementById('loading-bar');
 
 function showMain()  { setupEl.style.display = 'none'; mainEl.style.display = 'flex'; buildSlots(); }
-function showSetup() { mainEl.style.display  = 'none'; setupEl.style.display = 'flex'; tokenInput.value = ''; setupError.textContent = ''; }
+function showSetup() { mainEl.style.display  = 'none'; setupEl.style.display = 'flex'; tokenInput.value = ''; }
 
 if (token) showMain(); else showSetup();
 
-btnSave.onclick = async () => {
+btnSave.onclick = () => {
   const val = tokenInput.value.trim();
-  if (!val) { setupError.textContent = 'Paste your token above.'; return; }
-  btnSave.disabled = true; btnSave.textContent = 'Checking…'; setupError.textContent = '';
-  try {
-    const res = await fetch('https://api.are.na/v2/me', { headers: { Authorization: `Bearer ${val}` } });
-    if (!res.ok) throw new Error();
-    localStorage.setItem(TOKEN_KEY, val); token = val; showMain();
-  } catch { setupError.textContent = "Token didn't work — double-check and try again."; }
-  btnSave.disabled = false; btnSave.textContent = 'Save and continue';
+  if (!val) return;
+  localStorage.setItem(TOKEN_KEY, val);
+  token = val;
+  showMain();
 };
 
 btnReset.onclick = () => { localStorage.removeItem(TOKEN_KEY); token = ''; showSetup(); };
@@ -227,9 +195,7 @@ function buildSlots() {
     const div = document.createElement('div');
     div.className = 'pick';
     div.id = `pick-${i}`;
-    div.innerHTML = `
-      <div class="pick-label">${ch.label}</div>
-      <div class="pick-inner"><div class="pick-empty">—</div></div>`;
+    div.innerHTML = `<div class="pick-label">${ch.label}</div><div class="pick-inner"><div class="pick-empty">—</div></div>`;
     picksEl.appendChild(div);
   });
 }
@@ -243,7 +209,12 @@ function setLoading(v) {
 
 function authH() { return { Authorization: `Bearer ${token}` }; }
 
-async function fetchOne(ch, index) {
+function setSlotLoading(i, ch) {
+  const slot = document.getElementById(`pick-${i}`);
+  if (slot) slot.innerHTML = `<div class="pick-label">${ch.label}</div><div class="pick-inner"><div class="pick-empty">…</div></div>`;
+}
+
+async function fetchOne(ch) {
   const slug = ch.slug;
   const infoRes = await fetch(`https://api.are.na/v2/channels/${slug}?per=1&page=1`, { headers: authH() });
   if (infoRes.status === 401) throw Object.assign(new Error(), { auth: true });
@@ -258,8 +229,8 @@ async function fetchOne(ch, index) {
   return data.contents && data.contents[0];
 }
 
-function renderSlot(index, ch, block) {
-  const slot = document.getElementById(`pick-${index}`);
+function renderSlot(i, ch, block) {
+  const slot = document.getElementById(`pick-${i}`);
   if (!slot) return;
   let inner = '';
 
@@ -270,38 +241,35 @@ function renderSlot(index, ch, block) {
     const added = block.created_at
       ? new Date(block.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
       : '';
+    const url = `https://www.are.na/block/${block.id}`;
+    const a = (content) => `<a href="${url}" target="_blank" style="display:contents;text-decoration:none;">${content}</a>`;
 
     if (hasImage) {
       const title  = block.title || '';
       const source = block.source ? block.source.url : '';
-      inner = `<a href="https://www.are.na/block/${block.id}" target="_blank" style="display:contents;text-decoration:none;">
+      inner = a(`
         <img class="pick-image" src="${esc(block.image.original.url)}" alt="${esc(title)}">
         ${title  ? `<div class="pick-title">${esc(title)}</div>` : ''}
         ${source ? `<div class="pick-source">${esc(source)}</div>` : `<div class="pick-meta">${added}</div>`}
-      </a>`;
+      `);
     } else if (block.class === 'Text') {
       const content = block.content || block.title || '';
-      inner = `<a href="https://www.are.na/block/${block.id}" target="_blank" style="display:contents;text-decoration:none;">
+      inner = a(`
         <div class="pick-text">${esc(content).substring(0, 300)}${content.length > 300 ? '…' : ''}</div>
         <div class="pick-meta">${added}</div>
-      </a>`;
+      `);
     } else {
-      const title = block.title || block.description || '';
+      const title  = block.title || block.description || '';
       const source = block.source ? block.source.url : '';
-      inner = `<a href="https://www.are.na/block/${block.id}" target="_blank" style="display:contents;text-decoration:none;">
+      inner = a(`
         ${title  ? `<div class="pick-title">${esc(title)}</div>` : ''}
         ${source ? `<div class="pick-source">${esc(source)}</div>` : ''}
         <div class="pick-meta">${esc(block.class)} · ${added}</div>
-      </a>`;
+      `);
     }
   }
 
   slot.innerHTML = `<div class="pick-label">${ch.label}</div><div class="pick-inner">${inner}</div>`;
-}
-
-function setSlotLoading(index, ch) {
-  const slot = document.getElementById(`pick-${index}`);
-  if (slot) slot.innerHTML = `<div class="pick-label">${ch.label}</div><div class="pick-inner"><div class="pick-empty">…</div></div>`;
 }
 
 async function rollAll() {
@@ -311,7 +279,7 @@ async function rollAll() {
   let authFailed = false;
   await Promise.all(CHANNELS.map(async (ch, i) => {
     try {
-      const block = await fetchOne(ch, i);
+      const block = await fetchOne(ch);
       renderSlot(i, ch, block);
     } catch(e) {
       if (e.auth) { authFailed = true; return; }
