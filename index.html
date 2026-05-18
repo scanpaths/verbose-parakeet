@@ -6,6 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Picks">
+<link rel="apple-touch-icon" href="icon.png">
 <title>Picks</title>
 <style>
 :root {
@@ -466,12 +467,18 @@ function renderCard(index, ch, result) {
   lockBtn.appendChild(makeLockSvg(wasLocked));
   lockBtn.onclick = (e) => {
     e.stopPropagation();
+    e.preventDefault();
     const locked = !card.classList.contains('is-locked');
     card.classList.toggle('is-locked', locked);
     lockBtn.title = locked ? 'Unlock' : 'Lock';
     lockBtn.replaceChildren(makeLockSvg(locked));
   };
   media.appendChild(lockBtn);
+
+  // single tap anywhere on card opens the link
+  card.dataset.linkUrl = linkUrl;
+  card.style.cursor = 'pointer';
+  card.onclick = () => window.open(linkUrl, '_blank', 'noopener');
 
   // rebuild body
   body.innerHTML = '';
@@ -482,10 +489,7 @@ function renderCard(index, ch, result) {
 
   const titleEl = document.createElement('div');
   titleEl.className = 'card-title';
-  const a = document.createElement('a');
-  a.href = linkUrl; a.target = '_blank'; a.rel = 'noopener';
-  a.textContent = titleStr;
-  titleEl.appendChild(a);
+  titleEl.textContent = titleStr;
   body.appendChild(titleEl);
 
   if (excerpt && block.type !== 'Text') {
@@ -536,6 +540,8 @@ async function rollAll() {
 }
 
 btnRoll.onclick = rollAll;
+
+if (token) rollAll();
 </script>
 </body>
 </html>
