@@ -8,145 +8,263 @@
 <meta name="apple-mobile-web-app-title" content="Picks">
 <title>Picks</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: -apple-system, sans-serif;
-  background: #fff;
-  min-height: 100vh;
+:root {
+  --bg-page:    #f5f4f0;
+  --bg-card:    #ffffff;
+  --bg-media:   #ede9e4;
+  --bg-btn:     #ffffff;
+  --bg-btn-hover: #eeece8;
+  --text-primary:   #1a1a18;
+  --text-secondary: #888580;
+  --text-muted:     #aaa49e;
+  --text-preview:   #4a4845;
+  --border-card:    #e5e3de;
+  --border-btn:     #ccc8c2;
+  --border-locked:  #a89880;
+  --lock-bg:        rgba(255,255,255,0.8);
+  --lock-bg-hover:  rgba(255,255,255,0.97);
+  --lock-icon:      #888580;
+  --lock-icon-on:   #1a1a18;
 }
-#app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  max-width: 420px;
-  margin: 0 auto;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-page:    #1e1d1b;
+    --bg-card:    #2a2825;
+    --bg-media:   #322f2c;
+    --bg-btn:     #2a2825;
+    --bg-btn-hover: #35312e;
+    --text-primary:   #e8e4de;
+    --text-secondary: #9e9890;
+    --text-muted:     #6e6860;
+    --text-preview:   #c0b8ae;
+    --border-card:    #3a3733;
+    --border-btn:     #4a4640;
+    --border-locked:  #7a6e60;
+    --lock-bg:        rgba(30,29,27,0.75);
+    --lock-bg-hover:  rgba(30,29,27,0.95);
+    --lock-icon:      #9e9890;
+    --lock-icon-on:   #e8e4de;
+  }
 }
 
-/* setup */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* ── setup ─────────────────────────────────────────────────────── */
 #setup {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 48px 28px 64px;
   min-height: 100vh;
+  max-width: 420px;
+  margin: 0 auto;
 }
 #setup h1 {
-  font-size: 12px; font-weight: 500;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: #000; margin-bottom: 32px;
+  font-size: 13px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-secondary); margin-bottom: 32px;
 }
-#setup p { font-size: 13px; color: #666; line-height: 1.6; margin-bottom: 20px; }
-#setup a { color: #000; }
-#setup label { font-size: 11px; color: #999; letter-spacing: 0.03em; margin-bottom: 7px; display: block; }
+#setup p { font-size: 13px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 20px; }
+#setup a { color: var(--text-primary); }
+#setup label { font-size: 11px; color: var(--text-muted); letter-spacing: 0.04em; margin-bottom: 7px; display: block; }
 #token-input {
   width: 100%; height: 42px;
-  border: 1px solid #e8e8e8; border-radius: 3px;
-  padding: 0 11px; font-size: 12px; font-family: monospace;
-  color: #000; background: #fff; margin-bottom: 16px; outline: none;
+  border: 1px solid var(--border-btn); border-radius: 8px;
+  padding: 0 12px; font-size: 12px; font-family: monospace;
+  color: var(--text-primary); background: var(--bg-btn);
+  margin-bottom: 14px; outline: none;
+  transition: border-color 0.15s;
 }
-#token-input:focus { border-color: #000; }
+#token-input:focus { border-color: var(--text-primary); }
 #btn-save {
-  width: 100%; height: 42px; background: #000; color: #fff;
-  border: none; border-radius: 3px; font-size: 12px; font-weight: 500;
-  letter-spacing: 0.05em; cursor: pointer; transition: opacity 0.15s;
+  width: 100%; height: 42px;
+  background: var(--text-primary); color: var(--bg-page);
+  border: none; border-radius: 8px;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.05em;
+  cursor: pointer; transition: opacity 0.15s;
 }
 #btn-save:active { opacity: 0.75; }
-#btn-save:disabled { opacity: 0.3; }
+#btn-save:disabled { opacity: 0.35; }
 
-/* main */
+/* ── main ──────────────────────────────────────────────────────── */
 #main { display: none; flex-direction: column; min-height: 100vh; }
+
 header {
-  padding: 44px 20px 10px;
+  padding: 48px 20px 12px;
   display: flex; align-items: flex-end; justify-content: space-between;
 }
-h1.main-title {
+.header-title {
+  font-size: 13px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.header-controls { display: flex; align-items: center; gap: 8px; }
+.hdr-btn {
   font-size: 12px; font-weight: 500;
-  letter-spacing: 0.1em; text-transform: uppercase; color: #000;
+  padding: 6px 14px;
+  border: 1px solid var(--border-btn);
+  border-radius: 8px;
+  background: var(--bg-btn);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.15s;
 }
+.hdr-btn:hover { background: var(--bg-btn-hover); }
+.hdr-btn:disabled { opacity: 0.35; cursor: default; }
 .reset-btn {
-  font-size: 10px; color: #ccc; background: none;
-  border: none; cursor: pointer; padding: 0; letter-spacing: 0.03em;
+  font-size: 11px; color: var(--text-muted);
+  background: none; border: none; cursor: pointer; padding: 0;
 }
-.reset-btn:active { color: #000; }
+.reset-btn:hover { color: var(--text-primary); }
 
-/* cards */
+/* ── cards ─────────────────────────────────────────────────────── */
 .picks {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 12px 20px 0;
+  padding: 10px 20px 0;
   gap: 10px;
 }
-.pick {
-  border: 1px solid #e8e8e8;
-  border-radius: 3px;
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 80px;
   flex: 1;
+  min-height: 90px;
+  transition: background 0.2s, border-color 0.2s;
 }
-.pick-label {
-  font-size: 9px; font-weight: 500; letter-spacing: 0.1em;
-  text-transform: uppercase; color: #bbb;
-  padding: 8px 10px 4px;
+.card.is-locked { border-color: var(--border-locked); }
+
+.card-media {
+  width: 100%;
+  height: 110px;
+  background: var(--bg-media);
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.2s;
 }
-.pick-inner { flex: 1; display: flex; flex-direction: column; }
-.pick-image {
-  width: 100%; height: 120px;
-  object-fit: cover; display: block; background: #f5f5f5;
+.card-media img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
 }
-.pick-text {
-  padding: 8px 10px 10px;
-  font-size: 12px; line-height: 1.5; color: #222; flex: 1;
+.card-text-preview {
+  width: 100%; height: 100%;
+  padding: 10px 12px;
+  font-size: 11px; line-height: 1.6;
+  color: var(--text-preview);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
 }
-.pick-title {
-  font-size: 12px; font-weight: 500; color: #000;
-  padding: 4px 10px 2px; line-height: 1.4;
-}
-.pick-source {
-  font-size: 10px; color: #bbb;
-  padding: 0 10px 8px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.pick-meta { font-size: 10px; color: #ccc; padding: 4px 10px 8px; }
-.pick-empty {
+.card-media-placeholder {
   display: flex; align-items: center; justify-content: center;
-  flex: 1; min-height: 60px;
-  font-size: 11px; color: #ddd;
+  width: 100%; height: 100%;
+}
+.card-media-placeholder svg {
+  width: 28px; height: 28px;
+  stroke: var(--text-muted); fill: none; stroke-width: 1.5;
+  stroke-linecap: round; stroke-linejoin: round;
+  opacity: 0.5;
 }
 
-/* action bar */
+/* lock button */
+.lock-btn {
+  position: absolute; top: 7px; right: 7px;
+  width: 26px; height: 26px;
+  border-radius: 50%; border: none;
+  background: var(--lock-bg);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.15s;
+}
+.lock-btn svg {
+  width: 13px; height: 13px;
+  stroke: var(--lock-icon); fill: none;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  flex-shrink: 0;
+}
+.card:hover .lock-btn,
+.card.is-locked .lock-btn { opacity: 1; }
+.lock-btn:hover { background: var(--lock-bg-hover); }
+.card.is-locked .lock-btn svg { stroke: var(--lock-icon-on); }
+
+.card-body {
+  padding: 8px 12px 10px;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.card-board {
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-muted);
+}
+.card-title {
+  font-size: 12px; font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card-title a { color: inherit; text-decoration: none; }
+.card-title a:hover { text-decoration: underline; }
+.card-sub {
+  font-size: 10px; color: var(--text-muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ── action bar ────────────────────────────────────────────────── */
 .actions { padding: 12px 20px 44px; display: flex; gap: 8px; }
 .btn-roll {
-  flex: 1; height: 42px; background: #000; color: #fff;
-  border: none; border-radius: 3px; font-size: 12px; font-weight: 500;
-  letter-spacing: 0.05em; cursor: pointer; transition: opacity 0.15s;
+  flex: 1; height: 42px;
+  background: var(--text-primary); color: var(--bg-page);
+  border: none; border-radius: 8px;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.05em;
+  cursor: pointer; transition: opacity 0.15s;
 }
 .btn-roll:active { opacity: 0.75; }
-.btn-roll:disabled { opacity: 0.3; cursor: default; }
+.btn-roll:disabled { opacity: 0.35; cursor: default; }
+
 .loading-bar {
-  height: 2px; background: #000; width: 0%;
-  transition: width 0.5s; position: fixed; top: 0; left: 0; z-index: 100;
+  height: 2px; background: var(--text-primary); width: 0%;
+  transition: width 0.45s; position: fixed; top: 0; left: 0; z-index: 100;
 }
 </style>
 </head>
 <body>
 <div class="loading-bar" id="loading-bar"></div>
 
+<!-- setup -->
 <div id="setup">
   <h1>Picks</h1>
-  <p>Paste your Are.na personal access token below. It's stored only on this device and never sent anywhere else.</p>
+  <p>Paste your Are.na personal access token below. It's stored only on this device.</p>
   <p>Get yours at <a href="https://www.are.na/developers/personal-access-tokens" target="_blank">are.na/developers/personal-access-tokens</a> → New personal access token.</p>
   <label for="token-input">Access token</label>
   <input type="password" id="token-input" placeholder="paste token here" autocomplete="off" autocorrect="off" spellcheck="false">
   <button id="btn-save">Save and continue</button>
 </div>
 
+<!-- main -->
 <div id="main">
   <header>
-    <h1 class="main-title">Picks</h1>
-    <button class="reset-btn" id="btn-reset">reset token</button>
+    <span class="header-title">Picks</span>
+    <div class="header-controls">
+      <button class="reset-btn" id="btn-reset">reset token</button>
+    </div>
   </header>
   <div class="picks" id="picks"></div>
   <div class="actions">
@@ -155,13 +273,15 @@ h1.main-title {
 </div>
 
 <script>
+const API = 'https://api.are.na/v3';
+const TOKEN_KEY = 'arena_picks_token';
+
 const CHANNELS = [
-  { slug: "people-a3xhg4iu7yu",          label: "People" },
-  { slug: "readings-2026-mkpmglbdf_0",    label: "Readings" },
-  { slug: "the-world-of-yesterday",       label: "Yesterday" }
+  { slug: 'people-a3xhg4iu7yu',          label: 'People' },
+  { slug: 'readings-2026-mkpmglbdf_0',    label: 'Readings' },
+  { slug: 'the-world-of-yesterday',       label: 'Yesterday' }
 ];
 
-const TOKEN_KEY = 'arena_picks_token';
 let token = localStorage.getItem(TOKEN_KEY) || '';
 let loading = false;
 
@@ -189,17 +309,194 @@ btnSave.onclick = () => {
 
 btnReset.onclick = () => { localStorage.removeItem(TOKEN_KEY); token = ''; showSetup(); };
 
+/* ── helpers ─────────────────────────────────────────────────────── */
+function authH() { return { Authorization: `Bearer ${token}` }; }
+
+function esc(str) {
+  return String(str || '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function getImgSrc(block) {
+  const img = block.image;
+  if (!img) return null;
+  return img.large?.src || img.medium?.src || img.small?.src || img.src || null;
+}
+
+function getExcerpt(block) {
+  if (block.type === 'Text') {
+    const c = block.content;
+    if (!c) return '';
+    if (typeof c === 'string') return c.replace(/<[^>]*>/g, '').trim();
+    return (c.plain || c.markdown || '').trim();
+  }
+  if (block.type === 'Link' && block.source?.url) {
+    try { return new URL(block.source.url).hostname.replace('www.', ''); } catch {}
+  }
+  if (block.type === 'Attachment' && block.attachment?.filename) return block.attachment.filename;
+  return '';
+}
+
+function makeLockSvg(locked) {
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', '0 0 24 24');
+  const rect = document.createElementNS(ns, 'rect');
+  rect.setAttribute('x', '5'); rect.setAttribute('y', '11');
+  rect.setAttribute('width', '14'); rect.setAttribute('height', '10'); rect.setAttribute('rx', '2');
+  const path = document.createElementNS(ns, 'path');
+  path.setAttribute('d', locked ? 'M8 11V7a4 4 0 018 0v4' : 'M8 11V7a4 4 0 017.74-1');
+  svg.appendChild(rect); svg.appendChild(path);
+  return svg;
+}
+
+/* ── slots ───────────────────────────────────────────────────────── */
 function buildSlots() {
   picksEl.innerHTML = '';
   CHANNELS.forEach((ch, i) => {
-    const div = document.createElement('div');
-    div.className = 'pick';
-    div.id = `pick-${i}`;
-    div.innerHTML = `<div class="pick-label">${ch.label}</div><div class="pick-inner"><div class="pick-empty">—</div></div>`;
-    picksEl.appendChild(div);
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.id = `card-${i}`;
+    card.dataset.slug = ch.slug;
+    card.dataset.label = ch.label;
+    card.dataset.index = i;
+
+    const media = document.createElement('div');
+    media.className = 'card-media';
+    const ph = document.createElement('div');
+    ph.className = 'card-media-placeholder';
+    ph.innerHTML = `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>`;
+    media.appendChild(ph);
+
+    const lockBtn = document.createElement('button');
+    lockBtn.className = 'lock-btn';
+    lockBtn.title = 'Lock this card';
+    lockBtn.appendChild(makeLockSvg(false));
+    lockBtn.onclick = (e) => {
+      e.stopPropagation();
+      const locked = !card.classList.contains('is-locked');
+      card.classList.toggle('is-locked', locked);
+      lockBtn.title = locked ? 'Unlock' : 'Lock';
+      lockBtn.replaceChildren(makeLockSvg(locked));
+    };
+    media.appendChild(lockBtn);
+    card.appendChild(media);
+
+    const body = document.createElement('div');
+    body.className = 'card-body';
+    const lbl = document.createElement('div');
+    lbl.className = 'card-board';
+    lbl.textContent = ch.label;
+    body.appendChild(lbl);
+    const title = document.createElement('div');
+    title.className = 'card-title';
+    title.textContent = '—';
+    body.appendChild(title);
+    card.appendChild(body);
+
+    picksEl.appendChild(card);
   });
 }
 
+/* ── fetch ───────────────────────────────────────────────────────── */
+async function fetchRandom(slug) {
+  const metaRes = await fetch(`${API}/channels/${slug}`, { headers: authH() });
+  if (metaRes.status === 401) throw Object.assign(new Error('auth'), { auth: true });
+  if (!metaRes.ok) throw new Error(`channel error ${metaRes.status}`);
+  const meta = await metaRes.json();
+  const total = meta.counts?.contents ?? meta.length ?? 0;
+  if (!total) return null;
+
+  for (let i = 0; i < 8; i++) {
+    const page = Math.floor(Math.random() * total) + 1;
+    const res = await fetch(`${API}/channels/${slug}/contents?per=1&page=${page}&sort=position_desc`, { headers: authH() });
+    if (!res.ok) continue;
+    const data = await res.json();
+    const block = data.data?.[0] || data.contents?.[0];
+    if (block) return { block, boardTitle: meta.title };
+  }
+  return null;
+}
+
+/* ── render ──────────────────────────────────────────────────────── */
+function renderCard(index, ch, result) {
+  const card = document.getElementById(`card-${index}`);
+  if (!card) return;
+  const wasLocked = card.classList.contains('is-locked');
+
+  const media = card.querySelector('.card-media');
+  const body  = card.querySelector('.card-body');
+
+  if (!result) {
+    media.innerHTML = `<div class="card-media-placeholder"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>`;
+    body.innerHTML = `<div class="card-board">${esc(ch.label)}</div><div class="card-title" style="color:var(--text-muted)">nothing found</div>`;
+    return;
+  }
+
+  const { block, boardTitle } = result;
+  const imgSrc = getImgSrc(block);
+  const excerpt = getExcerpt(block);
+  const arenaUrl = `https://www.are.na/block/${block.id}`;
+  const linkUrl  = (block.type === 'Link' && block.source?.url) ? block.source.url : arenaUrl;
+  const titleStr = block.title || block.generated_title || '(untitled)';
+
+  // rebuild media
+  media.innerHTML = '';
+  if (imgSrc) {
+    const img = document.createElement('img');
+    img.src = imgSrc; img.alt = titleStr; img.loading = 'lazy';
+    media.appendChild(img);
+  } else if (block.type === 'Text') {
+    const prev = document.createElement('div');
+    prev.className = 'card-text-preview';
+    prev.textContent = excerpt.substring(0, 400);
+    media.appendChild(prev);
+  } else {
+    const ph = document.createElement('div');
+    ph.className = 'card-media-placeholder';
+    ph.innerHTML = `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>`;
+    media.appendChild(ph);
+  }
+
+  // re-add lock button
+  const lockBtn = document.createElement('button');
+  lockBtn.className = 'lock-btn';
+  lockBtn.title = wasLocked ? 'Unlock' : 'Lock';
+  lockBtn.appendChild(makeLockSvg(wasLocked));
+  lockBtn.onclick = (e) => {
+    e.stopPropagation();
+    const locked = !card.classList.contains('is-locked');
+    card.classList.toggle('is-locked', locked);
+    lockBtn.title = locked ? 'Unlock' : 'Lock';
+    lockBtn.replaceChildren(makeLockSvg(locked));
+  };
+  media.appendChild(lockBtn);
+
+  // rebuild body
+  body.innerHTML = '';
+  const lbl = document.createElement('div');
+  lbl.className = 'card-board';
+  lbl.textContent = ch.label;
+  body.appendChild(lbl);
+
+  const titleEl = document.createElement('div');
+  titleEl.className = 'card-title';
+  const a = document.createElement('a');
+  a.href = linkUrl; a.target = '_blank'; a.rel = 'noopener';
+  a.textContent = titleStr;
+  titleEl.appendChild(a);
+  body.appendChild(titleEl);
+
+  if (excerpt && block.type !== 'Text') {
+    const sub = document.createElement('div');
+    sub.className = 'card-sub';
+    sub.textContent = excerpt;
+    body.appendChild(sub);
+  }
+}
+
+/* ── roll ────────────────────────────────────────────────────────── */
 function setLoading(v) {
   loading = v; btnRoll.disabled = v;
   btnRoll.textContent = v ? '…' : 'Roll';
@@ -207,93 +504,35 @@ function setLoading(v) {
   if (!v) setTimeout(() => { bar.style.width = '0%'; }, 350);
 }
 
-function authH() { return { Authorization: `Bearer ${token}` }; }
-
-function setSlotLoading(i, ch) {
-  const slot = document.getElementById(`pick-${i}`);
-  if (slot) slot.innerHTML = `<div class="pick-label">${ch.label}</div><div class="pick-inner"><div class="pick-empty">…</div></div>`;
-}
-
-async function fetchOne(ch) {
-  const slug = ch.slug;
-  const infoRes = await fetch(`https://api.are.na/v2/channels/${slug}?per=1&page=1`, { headers: authH() });
-  if (infoRes.status === 401) throw Object.assign(new Error(), { auth: true });
-  if (!infoRes.ok) throw new Error();
-  const info = await infoRes.json();
-  const total = info.length;
-  if (!total) return null;
-  const page = Math.floor(Math.random() * total) + 1;
-  const contRes = await fetch(`https://api.are.na/v2/channels/${slug}/contents?per=1&page=${page}&sort=position`, { headers: authH() });
-  if (!contRes.ok) throw new Error();
-  const data = await contRes.json();
-  return data.contents && data.contents[0];
-}
-
-function renderSlot(i, ch, block) {
-  const slot = document.getElementById(`pick-${i}`);
-  if (!slot) return;
-  let inner = '';
-
-  if (!block) {
-    inner = '<div class="pick-empty">nothing returned</div>';
-  } else {
-    const hasImage = block.image && block.image.original && block.image.original.url;
-    const added = block.created_at
-      ? new Date(block.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-      : '';
-    const url = `https://www.are.na/block/${block.id}`;
-    const a = (content) => `<a href="${url}" target="_blank" style="display:contents;text-decoration:none;">${content}</a>`;
-
-    if (hasImage) {
-      const title  = block.title || '';
-      const source = block.source ? block.source.url : '';
-      inner = a(`
-        <img class="pick-image" src="${esc(block.image.original.url)}" alt="${esc(title)}">
-        ${title  ? `<div class="pick-title">${esc(title)}</div>` : ''}
-        ${source ? `<div class="pick-source">${esc(source)}</div>` : `<div class="pick-meta">${added}</div>`}
-      `);
-    } else if (block.class === 'Text') {
-      const content = block.content || block.title || '';
-      inner = a(`
-        <div class="pick-text">${esc(content).substring(0, 300)}${content.length > 300 ? '…' : ''}</div>
-        <div class="pick-meta">${added}</div>
-      `);
-    } else {
-      const title  = block.title || block.description || '';
-      const source = block.source ? block.source.url : '';
-      inner = a(`
-        ${title  ? `<div class="pick-title">${esc(title)}</div>` : ''}
-        ${source ? `<div class="pick-source">${esc(source)}</div>` : ''}
-        <div class="pick-meta">${esc(block.class)} · ${added}</div>
-      `);
-    }
-  }
-
-  slot.innerHTML = `<div class="pick-label">${ch.label}</div><div class="pick-inner">${inner}</div>`;
-}
-
 async function rollAll() {
   if (loading) return;
   setLoading(true);
-  CHANNELS.forEach((ch, i) => setSlotLoading(i, ch));
+
+  const cards = Array.from(picksEl.querySelectorAll('.card'));
+  const toRoll = cards.filter(c => !c.classList.contains('is-locked'));
+
+  // show loading state on unlocked cards
+  toRoll.forEach(card => {
+    const media = card.querySelector('.card-media');
+    media.querySelector('img,div.card-text-preview')?.remove();
+  });
+
   let authFailed = false;
-  await Promise.all(CHANNELS.map(async (ch, i) => {
+
+  await Promise.all(toRoll.map(async card => {
+    const i   = parseInt(card.dataset.index);
+    const ch  = CHANNELS[i];
     try {
-      const block = await fetchOne(ch);
-      renderSlot(i, ch, block);
+      const result = await fetchRandom(ch.slug);
+      renderCard(i, ch, result);
     } catch(e) {
       if (e.auth) { authFailed = true; return; }
-      renderSlot(i, ch, null);
+      renderCard(i, ch, null);
     }
   }));
+
   if (authFailed) { localStorage.removeItem(TOKEN_KEY); token = ''; showSetup(); }
   setLoading(false);
-}
-
-function esc(str) {
-  return String(str || '')
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 btnRoll.onclick = rollAll;
