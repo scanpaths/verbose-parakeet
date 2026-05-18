@@ -13,8 +13,6 @@ body {
   font-family: -apple-system, sans-serif;
   background: #fff;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 #app {
   display: flex;
@@ -23,405 +21,314 @@ body {
   max-width: 420px;
   margin: 0 auto;
 }
+
+/* setup */
+#setup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px 28px 64px;
+  min-height: 100vh;
+}
+#setup h1 {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #000;
+  margin-bottom: 32px;
+}
+#setup p { font-size: 13px; color: #666; line-height: 1.6; margin-bottom: 20px; }
+#setup a { color: #000; }
+#setup label { font-size: 11px; color: #999; letter-spacing: 0.03em; margin-bottom: 7px; display: block; }
+#token-input {
+  width: 100%; height: 42px;
+  border: 1px solid #e8e8e8; border-radius: 3px;
+  padding: 0 11px; font-size: 12px; font-family: monospace;
+  color: #000; background: #fff; margin-bottom: 9px; outline: none;
+}
+#token-input:focus { border-color: #000; }
+#setup-error { font-size: 11px; color: #c00; min-height: 16px; margin-bottom: 9px; }
+#btn-save {
+  width: 100%; height: 42px; background: #000; color: #fff;
+  border: none; border-radius: 3px; font-size: 12px; font-weight: 500;
+  letter-spacing: 0.05em; cursor: pointer; transition: opacity 0.15s;
+}
+#btn-save:active { opacity: 0.75; }
+#btn-save:disabled { opacity: 0.3; }
+
+/* main */
+#main { display: none; flex-direction: column; min-height: 100vh; }
 header {
-  padding: 52px 24px 16px;
+  padding: 44px 20px 10px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
 }
-h1 {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #000;
+h1.main-title {
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: #000;
 }
-.channel-tabs {
-  display: flex;
-  padding: 0 24px;
-  border-bottom: 1px solid #e8e8e8;
-  overflow-x: auto;
-  scrollbar-width: none;
+.reset-btn {
+  font-size: 10px; color: #ccc; background: none;
+  border: none; cursor: pointer; padding: 0; letter-spacing: 0.03em;
 }
-.channel-tabs::-webkit-scrollbar { display: none; }
-.tab {
-  font-size: 12px;
-  font-weight: 400;
-  color: #999;
-  padding: 8px 0;
-  margin-right: 20px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  white-space: nowrap;
-  border-bottom: 1.5px solid transparent;
-  margin-bottom: -1px;
-  transition: color 0.15s;
-  letter-spacing: 0.02em;
-}
-.tab.active {
-  color: #000;
-  border-bottom-color: #000;
-}
-.block-area {
+.reset-btn:active { color: #000; }
+
+/* cards */
+.picks {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  padding: 24px;
-  gap: 16px;
+  padding: 12px 20px 0;
+  gap: 10px;
 }
-.block-card {
+.pick {
   border: 1px solid #e8e8e8;
-  border-radius: 4px;
+  border-radius: 3px;
   overflow: hidden;
-  background: #fff;
-  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  min-height: 80px;
+  flex: 1;
+}
+.pick-label {
+  font-size: 9px; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #bbb;
+  padding: 8px 10px 4px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.pick-label span { color: #ddd; font-size: 9px; }
+.pick-inner {
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
-.block-image {
+.pick-image {
   width: 100%;
-  aspect-ratio: 4/3;
+  height: 120px;
   object-fit: cover;
   display: block;
   background: #f5f5f5;
 }
-.block-image.portrait { aspect-ratio: 3/4; }
-.block-meta {
-  padding: 12px 14px;
-  border-top: 1px solid #e8e8e8;
-}
-.block-title {
-  font-size: 13px;
-  font-weight: 500;
-  color: #000;
-  margin-bottom: 3px;
-  line-height: 1.4;
-}
-.block-source {
-  font-size: 11px;
-  color: #999;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.block-text {
-  padding: 20px;
-  font-size: 15px;
-  line-height: 1.6;
+.pick-text {
+  padding: 8px 10px 10px;
+  font-size: 12px;
+  line-height: 1.5;
   color: #222;
   flex: 1;
 }
-.block-link {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex: 1;
+.pick-title {
+  font-size: 12px; font-weight: 500; color: #000;
+  padding: 4px 10px 2px; line-height: 1.4;
 }
-.block-link-title {
-  font-size: 15px;
-  font-weight: 500;
-  color: #000;
-  line-height: 1.4;
+.pick-source {
+  font-size: 10px; color: #bbb;
+  padding: 0 10px 8px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.block-link-desc {
-  font-size: 13px;
-  color: #666;
-  line-height: 1.5;
+.pick-meta {
+  font-size: 10px; color: #ccc;
+  padding: 4px 10px 8px;
 }
-.block-link-url {
-  font-size: 11px;
-  color: #aaa;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-top: auto;
+.pick-empty {
+  display: flex; align-items: center; justify-content: center;
+  flex: 1; min-height: 60px;
+  font-size: 11px; color: #ddd;
 }
-.block-attachment {
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex: 1;
-}
-.block-attachment-info { flex: 1; min-width: 0; }
-.block-attachment-name {
-  font-size: 13px;
-  font-weight: 500;
-  color: #000;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.block-attachment-type {
-  font-size: 11px;
-  color: #aaa;
-  margin-top: 2px;
-}
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  color: #bbb;
-  font-size: 13px;
-  gap: 8px;
-  text-align: center;
-}
+
+/* action bar */
 .actions {
-  padding: 16px 24px 48px;
+  padding: 12px 20px 44px;
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
-.btn-pick {
-  flex: 1;
-  height: 44px;
-  background: #000;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition: opacity 0.15s;
+.btn-roll {
+  flex: 1; height: 42px; background: #000; color: #fff;
+  border: none; border-radius: 3px; font-size: 12px; font-weight: 500;
+  letter-spacing: 0.05em; cursor: pointer; transition: opacity 0.15s;
 }
-.btn-pick:active { opacity: 0.75; }
-.btn-pick:disabled { opacity: 0.3; cursor: default; }
-.btn-open {
-  height: 44px;
-  padding: 0 16px;
-  background: none;
-  color: #000;
-  border: 1px solid #e8e8e8;
-  border-radius: 4px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: background 0.15s;
-  white-space: nowrap;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-}
-.btn-open:active { background: #f5f5f5; }
-.btn-open:disabled { opacity: 0.3; cursor: default; }
+.btn-roll:active { opacity: 0.75; }
+.btn-roll:disabled { opacity: 0.3; cursor: default; }
+
 .loading-bar {
-  height: 2px;
-  background: #000;
-  width: 0%;
-  transition: width 0.4s;
-  position: fixed;
-  top: 0; left: 0;
-  z-index: 100;
-}
-.block-type-label {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #bbb;
-  padding: 12px 14px 0;
-}
-.block-footer {
-  font-size: 11px;
-  color: #bbb;
-  text-align: center;
-  padding: 8px 0 4px;
+  height: 2px; background: #000; width: 0%;
+  transition: width 0.5s; position: fixed; top: 0; left: 0; z-index: 100;
 }
 </style>
 </head>
 <body>
 <div class="loading-bar" id="loading-bar"></div>
-<div id="app">
+
+<div id="setup">
+  <h1>Picks</h1>
+  <p>Paste your Are.na personal access token below. It's stored only on this device and never sent anywhere else.</p>
+  <p>Get yours at <a href="https://dev.are.na/oauth/applications" target="_blank">dev.are.na/oauth/applications</a> → New Application → Personal Access Token.</p>
+  <label for="token-input">Access token</label>
+  <input type="password" id="token-input" placeholder="paste token here" autocomplete="off" autocorrect="off" spellcheck="false">
+  <div id="setup-error"></div>
+  <button id="btn-save">Save and continue</button>
+</div>
+
+<div id="main">
   <header>
-    <h1>Picks</h1>
+    <h1 class="main-title">Picks</h1>
+    <button class="reset-btn" id="btn-reset">reset token</button>
   </header>
-
-  <div class="channel-tabs" id="channel-tabs"></div>
-
-  <div class="block-area" id="block-area">
-    <div class="empty-state">tap pick to pull a random block</div>
-  </div>
-
+  <div class="picks" id="picks"></div>
   <div class="actions">
-    <button class="btn-pick" id="btn-pick">Pick</button>
-    <a class="btn-open" id="btn-open" style="pointer-events:none; opacity:0.3;" target="_blank">Open ↗</a>
+    <button class="btn-roll" id="btn-roll">Roll</button>
   </div>
 </div>
 
 <script>
 const CHANNELS = [
-  { slug: "people-a3xhg4iu7yu",          label: "People" },
-  { slug: "readings-2026-mkpmglbdf_0",    label: "Readings" },
-  { slug: "the-world-of-yesterday",       label: "Yesterday" }
+  { slug: "people-a3xhg4iu7yu",       label: "People" },
+  { slug: "readings-2026-mkpmglbdf_0", label: "Readings" },
+  { slug: "the-world-of-yesterday",    label: "Yesterday" }
 ];
 
-let activeChannel = 0;
-let currentBlock = null;
+const TOKEN_KEY = 'arena_picks_token';
+let token = localStorage.getItem(TOKEN_KEY) || '';
 let loading = false;
 
-const tabsEl   = document.getElementById('channel-tabs');
-const blockArea = document.getElementById('block-area');
-const btnPick  = document.getElementById('btn-pick');
-const btnOpen  = document.getElementById('btn-open');
-const bar      = document.getElementById('loading-bar');
+const setupEl    = document.getElementById('setup');
+const mainEl     = document.getElementById('main');
+const tokenInput = document.getElementById('token-input');
+const btnSave    = document.getElementById('btn-save');
+const setupError = document.getElementById('setup-error');
+const picksEl    = document.getElementById('picks');
+const btnRoll    = document.getElementById('btn-roll');
+const btnReset   = document.getElementById('btn-reset');
+const bar        = document.getElementById('loading-bar');
 
-CHANNELS.forEach((ch, i) => {
-  const tab = document.createElement('button');
-  tab.className = 'tab' + (i === 0 ? ' active' : '');
-  tab.textContent = ch.label;
-  tab.onclick = () => {
-    activeChannel = i;
-    document.querySelectorAll('.tab').forEach((t, j) => t.classList.toggle('active', j === i));
-    currentBlock = null;
-    disableOpen();
-    blockArea.innerHTML = '<div class="empty-state">tap pick to pull a random block</div>';
-  };
-  tabsEl.appendChild(tab);
-});
+function showMain()  { setupEl.style.display = 'none'; mainEl.style.display = 'flex'; buildSlots(); }
+function showSetup() { mainEl.style.display  = 'none'; setupEl.style.display = 'flex'; tokenInput.value = ''; setupError.textContent = ''; }
+
+if (token) showMain(); else showSetup();
+
+btnSave.onclick = async () => {
+  const val = tokenInput.value.trim();
+  if (!val) { setupError.textContent = 'Paste your token above.'; return; }
+  btnSave.disabled = true; btnSave.textContent = 'Checking…'; setupError.textContent = '';
+  try {
+    const res = await fetch('https://api.are.na/v2/me', { headers: { Authorization: `Bearer ${val}` } });
+    if (!res.ok) throw new Error();
+    localStorage.setItem(TOKEN_KEY, val); token = val; showMain();
+  } catch { setupError.textContent = "Token didn't work — double-check and try again."; }
+  btnSave.disabled = false; btnSave.textContent = 'Save and continue';
+};
+
+btnReset.onclick = () => { localStorage.removeItem(TOKEN_KEY); token = ''; showSetup(); };
+
+function buildSlots() {
+  picksEl.innerHTML = '';
+  CHANNELS.forEach((ch, i) => {
+    const div = document.createElement('div');
+    div.className = 'pick';
+    div.id = `pick-${i}`;
+    div.innerHTML = `
+      <div class="pick-label">${ch.label}</div>
+      <div class="pick-inner"><div class="pick-empty">—</div></div>`;
+    picksEl.appendChild(div);
+  });
+}
 
 function setLoading(v) {
-  loading = v;
-  btnPick.disabled = v;
-  btnPick.textContent = v ? '…' : 'Pick';
+  loading = v; btnRoll.disabled = v;
+  btnRoll.textContent = v ? '…' : 'Roll';
   bar.style.width = v ? '65%' : '100%';
   if (!v) setTimeout(() => { bar.style.width = '0%'; }, 350);
 }
 
-function disableOpen() {
-  btnOpen.style.pointerEvents = 'none';
-  btnOpen.style.opacity = '0.3';
-  btnOpen.removeAttribute('href');
+function authH() { return { Authorization: `Bearer ${token}` }; }
+
+async function fetchOne(ch, index) {
+  const slug = ch.slug;
+  const infoRes = await fetch(`https://api.are.na/v2/channels/${slug}?per=1&page=1`, { headers: authH() });
+  if (infoRes.status === 401) throw Object.assign(new Error(), { auth: true });
+  if (!infoRes.ok) throw new Error();
+  const info = await infoRes.json();
+  const total = info.length;
+  if (!total) return null;
+  const page = Math.floor(Math.random() * total) + 1;
+  const contRes = await fetch(`https://api.are.na/v2/channels/${slug}/contents?per=1&page=${page}&sort=position`, { headers: authH() });
+  if (!contRes.ok) throw new Error();
+  const data = await contRes.json();
+  return data.contents && data.contents[0];
 }
 
-function enableOpen(url) {
-  btnOpen.style.pointerEvents = '';
-  btnOpen.style.opacity = '1';
-  btnOpen.href = url;
-}
-
-async function fetchRandom() {
-  if (loading) return;
-  setLoading(true);
-  disableOpen();
-
-  const slug = CHANNELS[activeChannel].slug;
-
-  try {
-    const infoRes = await fetch(`https://api.are.na/v2/channels/${slug}?per=1&page=1`);
-    if (!infoRes.ok) throw new Error('channel fetch failed');
-    const info = await infoRes.json();
-    const total = info.length;
-
-    if (!total) {
-      renderEmpty('No blocks in this channel');
-      setLoading(false);
-      return;
-    }
-
-    const page = Math.floor(Math.random() * total) + 1;
-    const contRes = await fetch(`https://api.are.na/v2/channels/${slug}/contents?per=1&page=${page}&sort=position`);
-    if (!contRes.ok) throw new Error('contents fetch failed');
-    const data = await contRes.json();
-    const block = data.contents && data.contents[0];
-
-    if (!block) {
-      renderEmpty('No block returned — try again');
-      setLoading(false);
-      return;
-    }
-
-    currentBlock = block;
-    renderBlock(block);
-    enableOpen(`https://www.are.na/block/${block.id}`);
-
-  } catch (e) {
-    renderEmpty('Could not reach Are.na.\nCheck your connection and try again.');
-  }
-
-  setLoading(false);
-}
-
-function renderBlock(block) {
-  const type = block.class;
+function renderSlot(index, ch, block) {
+  const slot = document.getElementById(`pick-${index}`);
+  if (!slot) return;
   let inner = '';
 
-  const hasImage = block.image && block.image.original && block.image.original.url;
-
-  if (hasImage) {
-    const imgUrl = block.image.original.url;
-    const w = block.image.original.width || 1;
-    const h = block.image.original.height || 1;
-    const portrait = h > w * 1.1;
-    const title = block.title || '';
-    const source = block.source ? block.source.url : '';
-    inner = `
-      <div class="block-type-label">${esc(type)}</div>
-      <img class="block-image${portrait ? ' portrait' : ''}" src="${esc(imgUrl)}" alt="${esc(title)}">
-      <div class="block-meta">
-        ${title ? `<div class="block-title">${esc(title)}</div>` : ''}
-        ${source ? `<div class="block-source">${esc(source)}</div>` : ''}
-      </div>`;
-
-  } else if (type === 'Text') {
-    const content = block.content || block.title || '';
-    inner = `
-      <div class="block-type-label">Text</div>
-      <div class="block-text">${esc(content).substring(0, 800)}${content.length > 800 ? '…' : ''}</div>`;
-
-  } else if (type === 'Link') {
-    inner = `
-      <div class="block-type-label">Link</div>
-      <div class="block-link">
-        ${block.title       ? `<div class="block-link-title">${esc(block.title)}</div>` : ''}
-        ${block.description ? `<div class="block-link-desc">${esc(block.description).substring(0, 240)}</div>` : ''}
-        ${block.source && block.source.url ? `<div class="block-link-url">${esc(block.source.url)}</div>` : ''}
-      </div>`;
-
-  } else if (type === 'Attachment' || type === 'Media') {
-    const fname = (block.attachment && block.attachment.file_name) || block.title || 'file';
-    const ftype = (block.attachment && block.attachment.content_type) || '';
-    inner = `
-      <div class="block-type-label">Attachment</div>
-      <div class="block-attachment">
-        <div class="block-attachment-info">
-          <div class="block-attachment-name">${esc(fname)}</div>
-          ${ftype ? `<div class="block-attachment-type">${esc(ftype)}</div>` : ''}
-        </div>
-      </div>`;
-
+  if (!block) {
+    inner = '<div class="pick-empty">nothing returned</div>';
   } else {
-    inner = `
-      <div class="block-type-label">${esc(type)}</div>
-      <div class="block-text">${esc(block.title || block.content || 'Block')}</div>`;
+    const hasImage = block.image && block.image.original && block.image.original.url;
+    const added = block.created_at
+      ? new Date(block.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+      : '';
+
+    if (hasImage) {
+      const title  = block.title || '';
+      const source = block.source ? block.source.url : '';
+      inner = `<a href="https://www.are.na/block/${block.id}" target="_blank" style="display:contents;text-decoration:none;">
+        <img class="pick-image" src="${esc(block.image.original.url)}" alt="${esc(title)}">
+        ${title  ? `<div class="pick-title">${esc(title)}</div>` : ''}
+        ${source ? `<div class="pick-source">${esc(source)}</div>` : `<div class="pick-meta">${added}</div>`}
+      </a>`;
+    } else if (block.class === 'Text') {
+      const content = block.content || block.title || '';
+      inner = `<a href="https://www.are.na/block/${block.id}" target="_blank" style="display:contents;text-decoration:none;">
+        <div class="pick-text">${esc(content).substring(0, 300)}${content.length > 300 ? '…' : ''}</div>
+        <div class="pick-meta">${added}</div>
+      </a>`;
+    } else {
+      const title = block.title || block.description || '';
+      const source = block.source ? block.source.url : '';
+      inner = `<a href="https://www.are.na/block/${block.id}" target="_blank" style="display:contents;text-decoration:none;">
+        ${title  ? `<div class="pick-title">${esc(title)}</div>` : ''}
+        ${source ? `<div class="pick-source">${esc(source)}</div>` : ''}
+        <div class="pick-meta">${esc(block.class)} · ${added}</div>
+      </a>`;
+    }
   }
 
-  const added = block.created_at
-    ? new Date(block.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-    : '';
-  const pos = block.position ? `#${block.position}` : '';
-
-  blockArea.innerHTML = `
-    <div class="block-card">${inner}</div>
-    <div class="block-footer">${[pos, added].filter(Boolean).join(' · ')}</div>`;
+  slot.innerHTML = `<div class="pick-label">${ch.label}</div><div class="pick-inner">${inner}</div>`;
 }
 
-function renderEmpty(msg) {
-  blockArea.innerHTML = `<div class="empty-state">${esc(msg)}</div>`;
+function setSlotLoading(index, ch) {
+  const slot = document.getElementById(`pick-${index}`);
+  if (slot) slot.innerHTML = `<div class="pick-label">${ch.label}</div><div class="pick-inner"><div class="pick-empty">…</div></div>`;
+}
+
+async function rollAll() {
+  if (loading) return;
+  setLoading(true);
+  CHANNELS.forEach((ch, i) => setSlotLoading(i, ch));
+  let authFailed = false;
+  await Promise.all(CHANNELS.map(async (ch, i) => {
+    try {
+      const block = await fetchOne(ch, i);
+      renderSlot(i, ch, block);
+    } catch(e) {
+      if (e.auth) { authFailed = true; return; }
+      renderSlot(i, ch, null);
+    }
+  }));
+  if (authFailed) { localStorage.removeItem(TOKEN_KEY); token = ''; showSetup(); }
+  setLoading(false);
 }
 
 function esc(str) {
   return String(str || '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-btnPick.onclick = fetchRandom;
+btnRoll.onclick = rollAll;
 </script>
 </body>
 </html>
